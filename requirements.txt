@@ -1,0 +1,12 @@
+# Core & Data Handling
+PyGithub==1.59.1
+pandas==2.0.3
+pyyaml==6.0.1
+python-dateutil==2.8.2
+
+# AI / NLP
+openai==1.12.0
+
+# Utils
+requests==2.31.0
+python-dotenv==1.0.0

@@ -1,0 +1,14 @@
+# Configurações de Busca do OSS Sentinel
+github:
+  # Lista de repositórios alvo para ingestão
+  # A query padrão será: "repo:OWNER/NAME is:issue created:>180 days ago"
+  targets:
+    - "repo:apache/superset is:issue"
+    - "repo:grafana/grafana is:issue"
+    - "repo:metabase/metabase is:issue"
+
+parameters:
+  # Janela de tempo em dias para busca
+  days_back: 180
+  # Máximo de resultados por repositório (limite da API免费 é geralmente 1000, mas vamos baixo para teste)
+  max_results: 100

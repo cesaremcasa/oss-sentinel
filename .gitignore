@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Secrets / Config
+.env
+config/secrets.yaml
+config/local_settings.yaml
+
+# Data (Raw data é grande e sujo)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Logs
+logs/*.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.pyc
