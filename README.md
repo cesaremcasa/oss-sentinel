@@ -5,7 +5,7 @@
 ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-> **Automated AI-Driven Health Monitor & Decision Engine for Open Source Ecosystems**
+Automated AI-Driven Health Monitor & Decision Engine for Open Source Ecosystems
 
 ---
 
@@ -35,7 +35,7 @@ The pipeline follows a rigorous **data engineering flow**:
 
 As a **Proof of Concept**, OSS Sentinel analyzed the health of three major Business Intelligence tools (**Apache Superset**, **Grafana**, and **Metabase**) over the last 6 months.
 
-> **Window**: 180 Days | **Sample**: 100 issues/repo
+Window: 180 Days | Sample: 100 issues/repo
 
 ### Health Comparison (Pain Index)
 
@@ -51,18 +51,18 @@ As a **Proof of Concept**, OSS Sentinel analyzed the health of three major Busin
 
 ### Key Insights
 
-#### **Grafana: The "Safe Bet"**
-Exhibits the **lowest "Pain Score"**. While issues exist, they tend to be of medium urgency. The higher positive sentiment ratio indicates a healthier community response to issues.
+#### Grafana: The "Safe Bet"
+Exhibits the **lowest Pain Score**. While issues exist, they tend to be of medium urgency. The higher positive sentiment ratio indicates a healthier community response to issues.
 
-#### **Apache Superset: The "Trauma Hospital"**
+#### Apache Superset: The "Trauma Hospital"
 The data reveals a **demanding technical debt load**. The overwhelming negative sentiment (87%) coupled with the highest Urgency rate suggests the project is in a constant state of triage. Adoption requires a strong internal engineering team.
 
-#### **Metabase: The "Tired Middle Ground"**
+#### Metabase: The "Tired Middle Ground"
 Sits between the two. High urgency bugs are prevalent, but the community is slightly more positive than Apache, indicating a **resilient but strained** support ecosystem.
 
 ---
 
-## How to Run
+## Installation & Setup
 
 ### Prerequisites
 
@@ -74,34 +74,142 @@ Sits between the two. High urgency bugs are prevalent, but the community is slig
 
 Clone the repository:
 
-    git clone https://github.com/yourusername/oss-sentinel.git
-    cd oss-sentinel
+```bash
+git clone https://github.com/cesaremcasa/oss-sentinel.git
+cd oss-sentinel
+```
+
+Create and activate virtual environment:
+
+```bash
+python3.9 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
 Install dependencies:
 
-    pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
 ### Configuration
 
 Set your environment variables:
 
-    export GITHUB_TOKEN="your_github_token"
-    export OPENAI_API_KEY="your_openai_key"
+```bash
+export GITHUB_TOKEN="your_github_token"
+export OPENAI_API_KEY="your_openai_key"
+```
 
-### Execution
+Or create a `.env` file in the root directory:
 
-Run the full pipeline:
+```
+GITHUB_TOKEN=your_github_token
+OPENAI_API_KEY=your_openai_key
+```
 
-    python main.py
+---
 
-Or run specific modules:
+## Running the System
 
-    python src/ingestion.py
-    python src/processing.py
-    python src/enrichment.py
-    python src/analyze.py
+### Step 1: Data Ingestion
+
+Fetch raw issue data from GitHub repositories:
+
+```bash
+python src/ingestion.py
+```
+
+This step queries the GitHub Search API and saves raw JSON data to `data/raw/`.
+
+### Step 2: Data Processing
+
+Clean and normalize the raw data into a structured format:
+
+```bash
+python src/processing.py
+```
+
+Processed data will be saved to `data/processed/`.
+
+### Step 3: AI Enrichment
+
+Perform semantic classification using OpenAI GPT-4o-mini:
+
+```bash
+python src/enrichment.py
+```
+
+Each issue will be classified by Sentiment, Category, and Urgency. Results are saved to `data/enriched/`.
+
+### Step 4: Analytics & Visualization
+
+Generate Pain Index calculations and diagnostic heatmaps:
+
+```bash
+python src/analyze.py
+```
 
 Results and plots will be saved in `assets/plots/` and `data/analysis/`.
+
+### Full Pipeline Execution
+
+To run all steps sequentially:
+
+```bash
+python main.py
+```
+
+---
+
+## Project Structure
+
+```
+.
+├── src/
+│   ├── ingestion.py       # GitHub API data fetching
+│   ├── processing.py      # Data cleaning & normalization
+│   ├── enrichment.py      # AI-powered classification
+│   └── analyze.py         # Pain Index calculation & visualization
+├── data/
+│   ├── raw/               # Raw GitHub API responses
+│   ├── processed/         # Cleaned & structured data
+│   ├── enriched/          # AI-classified data
+│   └── analysis/          # Final metrics & reports
+├── assets/
+│   └── plots/             # Generated visualizations
+├── main.py                # Full pipeline orchestrator
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
+```
+
+---
+
+## Technical Details
+
+### Pain Index Methodology
+
+The Pain Index is calculated as:
+
+```
+Pain Index = Sentiment_Score × Urgency_Weight
+```
+
+Where:
+- **Sentiment Score**: Positive (+1), Neutral (0), Negative (-1)
+- **Urgency Weight**: Low (1), Medium (2), High (3)
+
+This metric provides a quantitative measure of project health, where lower (more negative) values indicate higher technical debt and community frustration.
+
+### API Rate Limits
+
+GitHub API has rate limits. The system includes exponential backoff and retry logic to handle rate limiting gracefully. For unauthenticated requests: 60 requests/hour. For authenticated requests: 5,000 requests/hour.
+
+### AI Classification
+
+The system uses OpenAI's GPT-4o-mini for classification due to its optimal cost/performance ratio for structured extraction tasks. Each issue is processed individually with a structured prompt to ensure consistent classification.
 
 ---
 
@@ -117,7 +225,6 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 ---
 
 ## Contributing
@@ -132,10 +239,5 @@ For questions or collaboration opportunities, please reach out via [GitHub Issue
 
 ---
 
-<div align="center">
-
-**Built by an Cesar Augusto **
-
-Star this repo if you find it useful
-
-</div>
+**Cesar Augusto**  
+Data Engineer & AI Systems Architect
